@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_SSL: DISABLED
+      SSL_ENFORCE: 0
+      DISABLE_SSL_DEFAULT: 1
+      SSLMODE: DISABLED
+    ports:
+      - "3306:3306"
+    networks:
+      - my-network
+    volumes:
+      - db_data:/var/lib/mysql
+    command:
+      --require-secure-transport=OFF
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmint
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_ABSOLUTE_URI: http://localhost:8081
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+      PMA_SSL: 0
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  db_data:

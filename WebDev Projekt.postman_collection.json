@@ -1,0 +1,1206 @@
+{
+	"info": {
+		"_postman_id": "5b3c195b-21f8-4101-89b7-87cea5853384",
+		"name": "WebDev Projekt",
+		"description": "**BIG BUUGGGG: Bármilyen valid user credentials-el el lehet érni és használni bárkinek az adataira a login kor megadott szemály authoritására vonatkozó methodusait. Vagyis ha student vagy csinálhatsz appointment-et egy tanárnak vagy adminnak. JJJAAAJJJ nnneeeeeeeeee**",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29675242"
+	},
+	"item": [
+		{
+			"name": "API testing enviroment",
+			"item": [
+				{
+					"name": "Controller Copy",
+					"item": [
+						{
+							"name": "user_data",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Student",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/user_data/Student",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user_data",
+										"Student"
+									]
+								},
+								"description": "**Bemenetel:**\n\n- PathVariabal - Existing and Valid Username (unique)\n    \n    - `http://localhost:8080/user_data/{username}`\n        \n\n**Kimenetel:**\n\n- A username alapján megtalált User adatai, mint Users obijektum\n    \n\n``` json\n{\n    \"userId\": 2,\n    \"username\": \"S\",\n    \"password\": \"$2a$12$WLjm3tNhZbCk9UTh/J7RTuf0LNFOm83DPTlzFgqLkrGs2EYNjjVYO\",\n    \"role\": \"ROLE_STUDENT\",\n    \"contact\": {\n        \"contactId\": 2,\n        \"email\": \"s@s.s\",\n        \"phone\": null\n    },\n    \"teacherCourses\": [],\n    \"user_appointments\": []\n}\n\n ```\n\n**Error:**\n\n- Not_Found\n    \n- Unauthorized"
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Student\",\r\n    \"password\": \"Aa12345!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"login"
+									]
+								},
+								"description": "**Bemenet:**\n\n\\-JSON Obijektum username és password mezökkel-\n\n``` json\n{\n    \"username\": \"S\",\n    \"password\": \"Aa12345!\"\n}\n\n ```\n\n**Kimenet:**\n\n\\-Egy String-\n\neyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9TVFVERU5UIiwic3ViIjoiUyIsImlhdCI6MTczMjQ2NDc4MiwiZXhwIjoxNzMyNDY2NTgyfQ.QqqS2ZUUObEy2EQ_mHoVKAmCGHxxcU1ZHmVJR3H8vzg\n\n**Error:**\n\n- Bad_Request - 400 - ha nincs egyáltalán body\n    \n- Unauthorized - 401"
+							},
+							"response": []
+						},
+						{
+							"name": "register",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Student",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": null,\r\n    \"username\": \"test12\", //Kell -  Nem létezhet\r\n    \"password\": \"Aa12345!\", //Kell - Valid kell legyen\r\n    \"role\": null, \r\n     \"contact\": null,//{ //Optional\r\n    //     \"contactId\": null,\r\n    //     \"email\": \"test5@test.test\", //Optional - ha van nem lehet még egy ugyan olyan\r\n    //     \"phone\": \"+12 1234567892\" //Optional - ha van nem lehet még egy ugyan olyan\r\n    // },\r\n    \"teacherCourses\": [],\r\n    \"user_appointments\": []\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/register",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"register"
+									]
+								},
+								"description": "**Bemenet:**\n\n``` json\n{\n    \"userId\": null,\n    \"username\": \"test\", //Kell -  Nem létezhet\n    \"password\": \"Aa12345!\", //Kell - Valid kell legyen\n    \"role\": null, \n    \"contact\": { //Optional\n        \"contactId\": null,\n        \"email\": null, //Optional - ha van nem lehet még egy ugyan olyan\n        \"phone\": null //Optional - ha van nem lehet még egy ugyan olyan\n    },\n    \"teacherCourses\": [],\n    \"user_appointments\": []\n}\n\n ```\n\n**Kimenet:**\n\n``` json\n{\n    \"userId\": 25,\n    \"username\": \"test5\",\n    \"password\": \"$2a$12$4ZVxlQgxZ80aBMxiwWAuDuEDpBk1Mil7Ru7VW2QmQnvpN59jtS6nq\",\n    \"role\": \"ROLE_STUDENT\",\n    \"contact\": {\n        \"contactId\": 26,\n        \"email\": \"test5@test.test\",\n        \"phone\": \"+12 1234567892\"\n    },\n    \"teacherCourses\": [],\n    \"user_appointments\": []\n}\n\n ```\n\n**Error:**\n\n- Bad_Request\n    \n- Unauthorized"
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Student",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 16,\r\n    \"username\": null,\r\n    \"password\": null,\r\n    \"role\": null,\r\n    \"contact\": {\r\n        \"contactId\": null,\r\n        \"email\": null,\r\n        \"phone\": null\r\n    },\r\n    \"teacherCourses\": [],\r\n    \"user_appointments\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/user_data/update",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user_data",
+										"update"
+									]
+								},
+								"description": "**Bemenet:**\n\n- Egy létező User obiektum\n    \n\n``` json\n{\n    \"userId\": 6,\n    \"username\": \"ethyl.howell\",\n    \"password\": \"$2a$12$L56ZDoEvL.oqLabtyz79COi3svcIRTVQQphddYdm8eMd5zoeEQLMO\", // Not Requierd\n    \"role\": \"ROLE_ADMIN\",\n    \"contact\": {\n        \"contactId\": 6,\n        \"email\": \"quincy.veum@hotmail.com\",\n        \"phone\": \"+71-5240063534\"\n    },\n    \"teacherCourses\": [],\n    \"user_appointments\": []\n}\n\n ```\n\n**Kimenet:**\n\n- Az update-elt Users Obijektum\n    \n\n``` json\n{\n    \"userId\": 6,\n    \"username\": \"ethyl.howell\",\n    \"password\": \"$2a$12$L56ZDoEvL.oqLabtyz79COi3svcIRTVQQphddYdm8eMd5zoeEQLMO\",\n    \"role\": \"ROLE_ADMIN\",\n    \"contact\": {\n        \"contactId\": 6,\n        \"email\": \"quincy.veum@hotmail.com\",\n        \"phone\": \"+71-5240063534\"\n    },\n    \"teacherCourses\": [],\n    \"user_appointments\": []\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Student",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/user_data/delete/7",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"user_data",
+										"delete",
+										"7"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - Existing And Valid Username\n    \n    - `http://localhost:8080/user_data/delete/{username}`\n        \n\n**Kimenet:**\n\n- 200 OK"
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "password",
+								"value": "Aa12345!",
+								"type": "string"
+							},
+							{
+								"key": "username",
+								"value": "S",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "StudentController Copy",
+					"item": [
+						{
+							"name": "mycourses",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Student",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/student/mycourses/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"student",
+										"mycourses",
+										"2"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - Existing and Valid UserID\n    \n    - `http://localhost:8080/api/v1/student/mycourses/{userID}`\n        \n\n**Kimenet:**\n\n``` json\n[\n    {\n        \"courseId\": 1,\n        \"courseName\": \"Principal Creative Facilitator\",\n        \"courseDescription\": \"fmnti30jg636e0tm3iqqeihh0i8sq0w5noygmo5ew9ovdwram8216gyf1et13l18qcd80zfvj32m2go91isj6anskyw61gmvvh6lnhreqbbjp2jvdw6otojg8nt0znwbn0mjr8wtp6ktnos6a9lnfy28aln48kqb5w5lkqqyj792aksgn1lq404b6jwhn2ton27pipa0dza0ccfkh1a7k6653562lkstmlo5l3zkb13z4nbiot4nccwb60\",\n        \"capacity\": 22,\n        \"startDate\": \"2024-12-03T02:22:01.267\",\n        \"endDate\": \"2025-01-27T17:35:49.792\",\n        \"duration\": 80113,\n        \"teacher\": {\n            \"userId\": 1,\n            \"username\": \"T\",\n            \"password\": \"$2a$12$3kJ5yEWdqFAQOCUcTzGmZOQb4Jtwb5Ra/Kn/9MfneRD9.S1Yqfewi\",\n            \"role\": \"ROLE_TEACHER\",\n            \"contact\": {\n                \"contactId\": 1,\n                \"email\": \"t@t.t\",\n                \"phone\": null\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        \"studentsList\": [\n            {\n                \"userId\": 2,\n                \"username\": \"S\",\n                \"password\": \"$2a$12$z9w0J53e/wAYmkj6nBK.z.dTrcKQy.8c9Da5zSKbzII4RyOodwK6G\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 2,\n                    \"email\": \"s@s.s\",\n                    \"phone\": null\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 7,\n                \"username\": \"robert.bergnaum\",\n                \"password\": \"$2a$12$HZKnNUAT0NPIgVEqgbwyAuUiE0ssi2QEp6Hwy8BMGGzzuOBQ4Nhby\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 7,\n                    \"email\": \"delia.runolfsson@hotmail.com\",\n                    \"phone\": \"0237517143\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            }\n        ]\n    },\n    {\n        \"courseId\": 2,\n        \"courseName\": \"Dynamic Usability Designer\",\n        \"courseDescription\": \"mqwcerly8avv0riiqh4jwlyypjrewvj8g22duc5alwuw3rno8941wp2s2js6k9im7wduf9a8hcz053z9yxr15n9z9g65hlpe5fmas99ooebuut65w8ufq75a1pwqo5tk9fcijx5zl3g4sfw83ag6wg05arfq97xaeozq8qk4eusi035jd8pfycvls45sb9bxqwzdk2gze4va9rs8zxmaty9wj78xahti085gj6m49sryx0expet2glskq9\",\n        \"capacity\": 15,\n        \"startDate\": \"2025-01-24T14:03:03.004\",\n        \"endDate\": \"2025-02-11T09:57:38.792\",\n        \"duration\": 25674,\n        \"teacher\": {\n            \"userId\": 1,\n            \"username\": \"T\",\n            \"password\": \"$2a$12$3kJ5yEWdqFAQOCUcTzGmZOQb4Jtwb5Ra/Kn/9MfneRD9.S1Yqfewi\",\n            \"role\": \"ROLE_TEACHER\",\n            \"contact\": {\n                \"contactId\": 1,\n                \"email\": \"t@t.t\",\n                \"phone\": null\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        \"studentsList\": [\n            {\n                \"userId\": 2,\n                \"username\": \"S\",\n                \"password\": \"$2a$12$z9w0J53e/wAYmkj6nBK.z.dTrcKQy.8c9Da5zSKbzII4RyOodwK6G\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 2,\n                    \"email\": \"s@s.s\",\n                    \"phone\": null\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 7,\n                \"username\": \"robert.bergnaum\",\n                \"password\": \"$2a$12$HZKnNUAT0NPIgVEqgbwyAuUiE0ssi2QEp6Hwy8BMGGzzuOBQ4Nhby\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 7,\n                    \"email\": \"delia.runolfsson@hotmail.com\",\n                    \"phone\": \"0237517143\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 9,\n                \"username\": \"verena.nolan\",\n                \"password\": \"$2a$12$KuoyVO9qmC86VOnnWEXEFeo5eSJtxxG0bJBBQz/kKBSZSTaLj1i6S\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 9,\n                    \"email\": \"sparkle.kiehn@yahoo.com\",\n                    \"phone\": \"6095091726\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 13,\n                \"username\": \"nicholas.koch\",\n                \"password\": \"$2a$12$NK1TuCeqHCgEhZPPA27Ipe4yIj5X/naXlaoLcRa2VIwZJtaLf5mUK\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 13,\n                    \"email\": \"krystina.kihn@gmail.com\",\n                    \"phone\": \"+0-7373108875\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            }\n        ]\n    },\n    //<<...SNIP...>>\n    {\n        \"courseId\": 11,\n        \"courseName\": \"Future Accounts Administrator\",\n        \"courseDescription\": \"hr6w1x6xvonksr3yszhpkw7622zwuteu1fpvfc9u3s7o6j6ulxykh8xgckzdvpasuxswxxba9yw8yh4744s0wnzbrneorewgpt7ouon9hqyvrl63zt05puygiesod06atxyq4w9vo5l589fcauyewxwpmhs2rmqir7cbtrawh6g37wvgcaqfdgvvhgbpnmn4qaui67c59h8tmhu1h179o3aemcdmue1gzr3wj1h8zix665k5ek6wwlqqvc\",\n        \"capacity\": 32,\n        \"startDate\": \"2025-01-04T03:32:20.534\",\n        \"endDate\": \"2025-02-14T16:20:12.1\",\n        \"duration\": 59807,\n        \"teacher\": {\n            \"userId\": 16,\n            \"username\": \"king.schowalter\",\n            \"password\": \"$2a$12$T8r0GMBU/nGdWVdg6s86tuxpAsn3SXa8UICAO0/VFGLovmo2hzRu.\",\n            \"role\": \"ROLE_TEACHER\",\n            \"contact\": {\n                \"contactId\": 16,\n                \"email\": \"freeman.bogan@gmail.com\",\n                \"phone\": \"9995138682\"\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        \"studentsList\": [\n            {\n                \"userId\": 2,\n                \"username\": \"S\",\n                \"password\": \"$2a$12$z9w0J53e/wAYmkj6nBK.z.dTrcKQy.8c9Da5zSKbzII4RyOodwK6G\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 2,\n                    \"email\": \"s@s.s\",\n                    \"phone\": null\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 7,\n                \"username\": \"robert.bergnaum\",\n                \"password\": \"$2a$12$HZKnNUAT0NPIgVEqgbwyAuUiE0ssi2QEp6Hwy8BMGGzzuOBQ4Nhby\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 7,\n                    \"email\": \"delia.runolfsson@hotmail.com\",\n                    \"phone\": \"0237517143\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 8,\n                \"username\": \"dario.murazik\",\n                \"password\": \"$2a$12$.RSQPF7SValbUn4QRtA5dupuzCUoXGVWcfFI7awF4aUCkJqcWm/12\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 8,\n                    \"email\": \"hassan.wolf@yahoo.com\",\n                    \"phone\": \"+16 3781618632\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 13,\n                \"username\": \"nicholas.koch\",\n                \"password\": \"$2a$12$NK1TuCeqHCgEhZPPA27Ipe4yIj5X/naXlaoLcRa2VIwZJtaLf5mUK\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 13,\n                    \"email\": \"krystina.kihn@gmail.com\",\n                    \"phone\": \"+0-7373108875\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 14,\n                \"username\": \"shayna.oconner\",\n                \"password\": \"$2a$12$pQitTO9loxD7Vx2P4pn9euVq3z.S6lqF5EA8lG5Y5FNXJ5fBcnqXW\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 14,\n                    \"email\": \"corliss.larson@hotmail.com\",\n                    \"phone\": \"6981004866\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            }\n        ]\n    }\n]\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "notmycourses",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Student",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/student/notmycourses/S",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"student",
+										"notmycourses",
+										"S"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - Existing and Valid Username\n    \n    - `http://localhost:8080/api/v1/student/notmycourses/{username}`\n        \n\n**Kimenet:**\n\n``` json\n[\n    {\n        \"courseId\": 1,\n        \"courseName\": \"Principal Creative Facilitator\",\n        \"courseDescription\": \"fmnti30jg636e0tm3iqqeihh0i8sq0w5noygmo5ew9ovdwram8216gyf1et13l18qcd80zfvj32m2go91isj6anskyw61gmvvh6lnhreqbbjp2jvdw6otojg8nt0znwbn0mjr8wtp6ktnos6a9lnfy28aln48kqb5w5lkqqyj792aksgn1lq404b6jwhn2ton27pipa0dza0ccfkh1a7k6653562lkstmlo5l3zkb13z4nbiot4nccwb60\",\n        \"capacity\": 22,\n        \"startDate\": \"2024-12-03T02:22:01.267\",\n        \"endDate\": \"2025-01-27T17:35:49.792\",\n        \"duration\": 80113,\n        \"teacher\": {\n            \"userId\": 1,\n            \"username\": \"T\",\n            \"password\": \"$2a$12$3kJ5yEWdqFAQOCUcTzGmZOQb4Jtwb5Ra/Kn/9MfneRD9.S1Yqfewi\",\n            \"role\": \"ROLE_TEACHER\",\n            \"contact\": {\n                \"contactId\": 1,\n                \"email\": \"t@t.t\",\n                \"phone\": null\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        \"studentsList\": [\n            {\n                \"userId\": 2,\n                \"username\": \"S\",\n                \"password\": \"$2a$12$z9w0J53e/wAYmkj6nBK.z.dTrcKQy.8c9Da5zSKbzII4RyOodwK6G\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 2,\n                    \"email\": \"s@s.s\",\n                    \"phone\": null\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 7,\n                \"username\": \"robert.bergnaum\",\n                \"password\": \"$2a$12$HZKnNUAT0NPIgVEqgbwyAuUiE0ssi2QEp6Hwy8BMGGzzuOBQ4Nhby\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 7,\n                    \"email\": \"delia.runolfsson@hotmail.com\",\n                    \"phone\": \"0237517143\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            }\n        ]\n    },\n    {\n        \"courseId\": 2,\n        \"courseName\": \"Dynamic Usability Designer\",\n        \"courseDescription\": \"mqwcerly8avv0riiqh4jwlyypjrewvj8g22duc5alwuw3rno8941wp2s2js6k9im7wduf9a8hcz053z9yxr15n9z9g65hlpe5fmas99ooebuut65w8ufq75a1pwqo5tk9fcijx5zl3g4sfw83ag6wg05arfq97xaeozq8qk4eusi035jd8pfycvls45sb9bxqwzdk2gze4va9rs8zxmaty9wj78xahti085gj6m49sryx0expet2glskq9\",\n        \"capacity\": 15,\n        \"startDate\": \"2025-01-24T14:03:03.004\",\n        \"endDate\": \"2025-02-11T09:57:38.792\",\n        \"duration\": 25674,\n        \"teacher\": {\n            \"userId\": 1,\n            \"username\": \"T\",\n            \"password\": \"$2a$12$3kJ5yEWdqFAQOCUcTzGmZOQb4Jtwb5Ra/Kn/9MfneRD9.S1Yqfewi\",\n            \"role\": \"ROLE_TEACHER\",\n            \"contact\": {\n                \"contactId\": 1,\n                \"email\": \"t@t.t\",\n                \"phone\": null\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        \"studentsList\": [\n            {\n                \"userId\": 2,\n                \"username\": \"S\",\n                \"password\": \"$2a$12$z9w0J53e/wAYmkj6nBK.z.dTrcKQy.8c9Da5zSKbzII4RyOodwK6G\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 2,\n                    \"email\": \"s@s.s\",\n                    \"phone\": null\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 7,\n                \"username\": \"robert.bergnaum\",\n                \"password\": \"$2a$12$HZKnNUAT0NPIgVEqgbwyAuUiE0ssi2QEp6Hwy8BMGGzzuOBQ4Nhby\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 7,\n                    \"email\": \"delia.runolfsson@hotmail.com\",\n                    \"phone\": \"0237517143\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 9,\n                \"username\": \"verena.nolan\",\n                \"password\": \"$2a$12$KuoyVO9qmC86VOnnWEXEFeo5eSJtxxG0bJBBQz/kKBSZSTaLj1i6S\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 9,\n                    \"email\": \"sparkle.kiehn@yahoo.com\",\n                    \"phone\": \"6095091726\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 13,\n                \"username\": \"nicholas.koch\",\n                \"password\": \"$2a$12$NK1TuCeqHCgEhZPPA27Ipe4yIj5X/naXlaoLcRa2VIwZJtaLf5mUK\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 13,\n                    \"email\": \"krystina.kihn@gmail.com\",\n                    \"phone\": \"+0-7373108875\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            }\n        ]\n    },\n    //<<...SNIP...>>\n    {\n        \"courseId\": 11,\n        \"courseName\": \"Future Accounts Administrator\",\n        \"courseDescription\": \"hr6w1x6xvonksr3yszhpkw7622zwuteu1fpvfc9u3s7o6j6ulxykh8xgckzdvpasuxswxxba9yw8yh4744s0wnzbrneorewgpt7ouon9hqyvrl63zt05puygiesod06atxyq4w9vo5l589fcauyewxwpmhs2rmqir7cbtrawh6g37wvgcaqfdgvvhgbpnmn4qaui67c59h8tmhu1h179o3aemcdmue1gzr3wj1h8zix665k5ek6wwlqqvc\",\n        \"capacity\": 32,\n        \"startDate\": \"2025-01-04T03:32:20.534\",\n        \"endDate\": \"2025-02-14T16:20:12.1\",\n        \"duration\": 59807,\n        \"teacher\": {\n            \"userId\": 16,\n            \"username\": \"king.schowalter\",\n            \"password\": \"$2a$12$T8r0GMBU/nGdWVdg6s86tuxpAsn3SXa8UICAO0/VFGLovmo2hzRu.\",\n            \"role\": \"ROLE_TEACHER\",\n            \"contact\": {\n                \"contactId\": 16,\n                \"email\": \"freeman.bogan@gmail.com\",\n                \"phone\": \"9995138682\"\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        \"studentsList\": [\n            {\n                \"userId\": 2,\n                \"username\": \"S\",\n                \"password\": \"$2a$12$z9w0J53e/wAYmkj6nBK.z.dTrcKQy.8c9Da5zSKbzII4RyOodwK6G\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 2,\n                    \"email\": \"s@s.s\",\n                    \"phone\": null\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 7,\n                \"username\": \"robert.bergnaum\",\n                \"password\": \"$2a$12$HZKnNUAT0NPIgVEqgbwyAuUiE0ssi2QEp6Hwy8BMGGzzuOBQ4Nhby\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 7,\n                    \"email\": \"delia.runolfsson@hotmail.com\",\n                    \"phone\": \"0237517143\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 8,\n                \"username\": \"dario.murazik\",\n                \"password\": \"$2a$12$.RSQPF7SValbUn4QRtA5dupuzCUoXGVWcfFI7awF4aUCkJqcWm/12\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 8,\n                    \"email\": \"hassan.wolf@yahoo.com\",\n                    \"phone\": \"+16 3781618632\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 13,\n                \"username\": \"nicholas.koch\",\n                \"password\": \"$2a$12$NK1TuCeqHCgEhZPPA27Ipe4yIj5X/naXlaoLcRa2VIwZJtaLf5mUK\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 13,\n                    \"email\": \"krystina.kihn@gmail.com\",\n                    \"phone\": \"+0-7373108875\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 14,\n                \"username\": \"shayna.oconner\",\n                \"password\": \"$2a$12$pQitTO9loxD7Vx2P4pn9euVq3z.S6lqF5EA8lG5Y5FNXJ5fBcnqXW\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 14,\n                    \"email\": \"corliss.larson@hotmail.com\",\n                    \"phone\": \"6981004866\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            }\n        ]\n    }\n]\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "createAppointment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Student",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/student/create/9/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"student",
+										"create",
+										"9",
+										"1"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - Existing and Valid username\n    \n- PathVariable - Existing and Valid courseID\n    \n    - `http://localhost:8080/api/v1/student/create/{studentId}/{courseID}`\n        \n\n**Kimenet:**\n\n- `200 OK`\n    \n\n2,4,6,9"
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAppointment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Student",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/student/delete/2/5",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"student",
+										"delete",
+										"2",
+										"5"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathValiables - Existing and Valid Usernam\n    \n- PathValiables - Existing id\n    \n    - `http://localhost:8080/api/v1/student/delete/{studentId}/{courseId}`\n        \n\n**Kimenet:**\n\n- `200 OK - akkor is ha a kurzushoz nincs appointmentje`\n    \n- **Akkor is OK, ha nincs olzan appointment**"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "TeacherController Copy",
+					"item": [
+						{
+							"name": "listOfACourseAppointments",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Teacher",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/teacher/appointmentslist/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"teacher",
+										"appointmentslist",
+										"1"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - CourseID\n    \n    - `localhost:8080/api/v1/management/teacher/appointmentslist/{courseID}`\n        \n\n**Kimenet:**\n\n- Listája a usereknek, akik a kurzushoz tartoznak\n    \n\n``` json\n[\n    {\n        \"userId\": 5,\n        \"username\": \"phylicia.lind\",\n        \"password\": \"$2a$12$qngQTjV1VqmY24nHzx54hO5YiacuR.me5Vs.N4e8k66LDN9Uo8uV6\",\n        \"role\": \"ROLE_STUDENT\",\n        \"contact\": {\n            \"contactId\": 5,\n            \"email\": \"royce.abernathy@gmail.com\",\n            \"phone\": \"+9 7912459048\"\n        },\n        \"teacherCourses\": [],\n        \"user_appointments\": []\n    },\n    {\n        \"userId\": 10,\n        \"username\": \"jerlene.ledner\",\n        \"password\": \"$2a$12$7B1XSseoVgEzmoVfPCzClOKy3hHZxPG1di1n/I4kjbQZkZKcmIPZa\",\n        \"role\": \"ROLE_STUDENT\",\n        \"contact\": {\n            \"contactId\": 10,\n            \"email\": \"laurence.hoppe@yahoo.com\",\n            \"phone\": \"2486901361\"\n        },\n        \"teacherCourses\": [],\n        \"user_appointments\": []\n    }\n]\n\n ```\n\n**Errors:**\n\n- 200 OK\n    \n- 404 Not_Found, ha nincs a kurzus vagy ha nincs megadva"
+							},
+							"response": []
+						},
+						{
+							"name": "courseDetails",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Teacher",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/teacher/details/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"teacher",
+										"details",
+										"3"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - CourseID\n    \n    - `localhost:8080/api/v1/management/teacher/details/{courseID}`\n        \n\n**Kimenet:**\n\n``` json\n{\n    \"courseId\": 5,\n    \"courseName\": \"Regional Division Executive\",\n    \"courseDescription\": \"9f8c9sqozqop0eb4cskx3drjr3gq84dgr6e9coaamqfypkus9xcvlf9jn28w3902jimg6qmao2puvxha4el05ets4q8bss5pz8bsxfbowogoh2u3jm083dnswcwd1o19tpi93ujkqimkheb3lvzz7d24tjxww65u4fy8t4zybmvugq9yiwlqsygcmiiv1pbj403rq8b91q63luo3qt78uz3kf74rhmgpp2apzfbuelfmet431m8t3wpfwk\",\n    \"capacity\": 12,\n    \"startDate\": \"2024-12-06T09:55:49.592\",\n    \"endDate\": \"2025-02-05T01:34:55.761\",\n    \"duration\": 87339,\n    \"teacher\": {\n        \"userId\": 6,\n        \"username\": \"vernetta.schaden\",\n        \"password\": \"$2a$12$E2FS81.gPcSR8oiRNoSqCuqIcFicaTpFwEh8YelSldD/hndszAfUW\",\n        \"role\": \"ROLE_TEACHER\",\n        \"contact\": {\n            \"contactId\": 6,\n            \"email\": \"winifred.swift@gmail.com\",\n            \"phone\": \"3715019505\"\n        },\n        \"teacherCourses\": [],\n        \"user_appointments\": []\n    },\n    \"studentsList\": [\n        {\n            \"userId\": 5,\n            \"username\": \"phylicia.lind\",\n            \"password\": \"$2a$12$qngQTjV1VqmY24nHzx54hO5YiacuR.me5Vs.N4e8k66LDN9Uo8uV6\",\n            \"role\": \"ROLE_STUDENT\",\n            \"contact\": {\n                \"contactId\": 5,\n                \"email\": \"royce.abernathy@gmail.com\",\n                \"phone\": \"+9 7912459048\"\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        {\n            \"userId\": 10,\n            \"username\": \"jerlene.ledner\",\n            \"password\": \"$2a$12$7B1XSseoVgEzmoVfPCzClOKy3hHZxPG1di1n/I4kjbQZkZKcmIPZa\",\n            \"role\": \"ROLE_STUDENT\",\n            \"contact\": {\n                \"contactId\": 10,\n                \"email\": \"laurence.hoppe@yahoo.com\",\n                \"phone\": \"2486901361\"\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        }\n    ]\n}\n\n ```\n\n**Errors:**\n\n- 200\n    \n- 404"
+							},
+							"response": []
+						},
+						{
+							"name": "listOfMyCourses",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Teacher",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/teacher/mycourses/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"teacher",
+										"mycourses",
+										"1"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - userID\n    \n    - `localhost:8080/api/v1/management/teacher/mycourses/{userID}`\n        \n\n**Kimenet:**\n\n``` json\n[\n    {\n        \"courseId\": 1,\n        \"courseName\": \"Lead Directives Facilitator\",\n        \"courseDescription\": \"akfvr627r27est9nxjqtg2s5umxagit4f0b9ezn732v7wiof5t8a0tixf7z7i9wi5o19zk49imzg5rha43rby9cr2z6wkag9ye5878f2p2a4t1r67jag6n45uomfh5jqx0g1dgyuuu0z94s5379imqwomnfsn8m1y8l0vg3dn2qxw234vl9sbmez8lmdvodtygcqif8r3m7fwazzbr16k1jsjkr0wognzne5lhebiu4g5mu2nn6o75rd7y\",\n        \"capacity\": 27,\n        \"startDate\": \"2025-01-18T19:50:33.609\",\n        \"endDate\": \"2025-02-07T09:34:56.731\",\n        \"duration\": 28184,\n        \"teacher\": {\n            \"userId\": 1,\n            \"username\": \"T\",\n            \"password\": \"$2a$12$LwhONnF1bOdRG9TxE.8EW.ZFWURz/igwt79wFvaigITLYP.lz1rHK\",\n            \"role\": \"ROLE_TEACHER\",\n            \"contact\": {\n                \"contactId\": 1,\n                \"email\": \"t@t.t\",\n                \"phone\": null\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        \"studentsList\": [\n            {\n                \"userId\": 4,\n                \"username\": \"roberto.koss\",\n                \"password\": \"$2a$12$w3jppUX9HwseKRB0Gcqyhu5kJYubPMwLwtLc2rfm2kQZ5arorshP2\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 4,\n                    \"email\": \"larry.kerluke@hotmail.com\",\n                    \"phone\": \"+16-1551247790\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 5,\n                \"username\": \"phylicia.lind\",\n                \"password\": \"$2a$12$qngQTjV1VqmY24nHzx54hO5YiacuR.me5Vs.N4e8k66LDN9Uo8uV6\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 5,\n                    \"email\": \"royce.abernathy@gmail.com\",\n                    \"phone\": \"+9 7912459048\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 7,\n                \"username\": \"damien.boyle\",\n                \"password\": \"$2a$12$TQ1dhFWPiaDK0C52JFpCG.CSumUGbqWWXsRpCu32Dw8YlpjJQnpAq\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 7,\n                    \"email\": \"paris.bayer@hotmail.com\",\n                    \"phone\": \"4384988048\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 11,\n                \"username\": \"laraine.hagenes\",\n                \"password\": \"$2a$12$dXrA9EX5e8ikc8FDdE5QVelZmx2YOfVwxzn/MIvr0GyuaHva87EMK\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 11,\n                    \"email\": \"albertina.hegmann@yahoo.com\",\n                    \"phone\": \"2853481047\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 14,\n                \"username\": \"leland.simonis\",\n                \"password\": \"$2a$12$dZvyA.WHfz5PAngJxy3QSeXHdKHf7rpwUYBQYrA1tlqg1iHOIK1aq\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 14,\n                    \"email\": \"mario.kuhic@hotmail.com\",\n                    \"phone\": \"+0-5403471373\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            }\n        ]\n    },\n    {\n        \"courseId\": 2,\n        \"courseName\": \"Human Factors Producer\",\n        \"courseDescription\": \"rhi1u8chqugf7j3h2mrx9smryqhl55si1poiefwyc9nvl8iu5023r1cn11ltxeuz2qxbmafshtt8wqptpllvanse6nerz67pqrcfykt1vre080hj3c6kgmdcie139074nyy22eejmrchcb97ebju0zwn8cylu48ruewsufvil95imqtz3pdxl10hl716ansjea756kzk1t679px4ut4hxh925p61gs24sw25u42b5qn5phyligzjv2jfbv\",\n        \"capacity\": 46,\n        \"startDate\": \"2024-12-24T00:55:25.215\",\n        \"endDate\": \"2025-02-01T14:01:52.912\",\n        \"duration\": 56946,\n        \"teacher\": {\n            \"userId\": 1,\n            \"username\": \"T\",\n            \"password\": \"$2a$12$LwhONnF1bOdRG9TxE.8EW.ZFWURz/igwt79wFvaigITLYP.lz1rHK\",\n            \"role\": \"ROLE_TEACHER\",\n            \"contact\": {\n                \"contactId\": 1,\n                \"email\": \"t@t.t\",\n                \"phone\": null\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        \"studentsList\": [\n            {\n                \"userId\": 5,\n                \"username\": \"phylicia.lind\",\n                \"password\": \"$2a$12$qngQTjV1VqmY24nHzx54hO5YiacuR.me5Vs.N4e8k66LDN9Uo8uV6\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 5,\n                    \"email\": \"royce.abernathy@gmail.com\",\n                    \"phone\": \"+9 7912459048\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 10,\n                \"username\": \"jerlene.ledner\",\n                \"password\": \"$2a$12$7B1XSseoVgEzmoVfPCzClOKy3hHZxPG1di1n/I4kjbQZkZKcmIPZa\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 10,\n                    \"email\": \"laurence.hoppe@yahoo.com\",\n                    \"phone\": \"2486901361\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            }\n        ]\n    },\n    {\n        \"courseId\": 3,\n        \"courseName\": \"District Operations Supervisor\",\n        \"courseDescription\": \"3xr6yo22ajknfn2bkzojtkhbixrc1ogrquhbflo8a8q60w1c8ohijyu3iieipe1rk85xrtqbz6arsemsq61slqtux5df24awpwf48p461rttn1kqo65wrjzo2edvsdrwmkyirpqkri7hok0mxadfsmqdyaabvsewymn6lcg2l00u50k4yw4oen0d80jaui4x2lems0qlkv7511e8tkvg8yg4w0h1frm55mmmx31tzpo97786lgdqlzq6v7\",\n        \"capacity\": 40,\n        \"startDate\": \"2025-01-03T22:10:34.003\",\n        \"endDate\": \"2025-02-10T21:37:54.653\",\n        \"duration\": 54687,\n        \"teacher\": {\n            \"userId\": 1,\n            \"username\": \"T\",\n            \"password\": \"$2a$12$LwhONnF1bOdRG9TxE.8EW.ZFWURz/igwt79wFvaigITLYP.lz1rHK\",\n            \"role\": \"ROLE_TEACHER\",\n            \"contact\": {\n                \"contactId\": 1,\n                \"email\": \"t@t.t\",\n                \"phone\": null\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        \"studentsList\": [\n            {\n                \"userId\": 2,\n                \"username\": \"S\",\n                \"password\": \"$2a$12$d.OTj2ay7677.QA/3aI93.Dkh640RWblJlym7kMy/KspO3s5./DuO\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 2,\n                    \"email\": \"s@s.s\",\n                    \"phone\": null\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 5,\n                \"username\": \"phylicia.lind\",\n                \"password\": \"$2a$12$qngQTjV1VqmY24nHzx54hO5YiacuR.me5Vs.N4e8k66LDN9Uo8uV6\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 5,\n                    \"email\": \"royce.abernathy@gmail.com\",\n                    \"phone\": \"+9 7912459048\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            },\n            {\n                \"userId\": 14,\n                \"username\": \"leland.simonis\",\n                \"password\": \"$2a$12$dZvyA.WHfz5PAngJxy3QSeXHdKHf7rpwUYBQYrA1tlqg1iHOIK1aq\",\n                \"role\": \"ROLE_STUDENT\",\n                \"contact\": {\n                    \"contactId\": 14,\n                    \"email\": \"mario.kuhic@hotmail.com\",\n                    \"phone\": \"+0-5403471373\"\n                },\n                \"teacherCourses\": [],\n                \"user_appointments\": []\n            }\n        ]\n    }\n]\n\n ```\n\n**Error:**\n\n- 200\n    \n- 404"
+							},
+							"response": []
+						},
+						{
+							"name": "createCourse",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Teacher",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"courseId\": null, //Mindig null\r\n    \"courseName\": \"Product Scaling5\", //Kell - legablább 4 karakter\r\n    \"courseDescription\": \"\", //Optional\r\n    \"capacity\": 50, // Kell - 1 és 50 között\r\n    \"startDate\": \"2025-01-07T15:56:25.751\", // Kell - jelen vagy jövő\r\n    \"endDate\": \"2025-02-08T01:56:21.527\", // Kell - jelen vagy jövő\r\n    \"duration\": null, // Mindig null\r\n    \"teacher\": {\r\n        \"userId\": 1, // Csak ez kell - a többi null\r\n        \"username\": null, // Null\r\n        \"password\": null, // Null\r\n        \"role\": null, // Null\r\n        \"contact\": null, // Null\r\n        \"teacherCourses\": [], //Empty list\r\n        \"user_appointments\": [] //Empty list\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/management/teacher/create_course",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"teacher",
+										"create_course"
+									]
+								},
+								"description": "**Bemenet:**\n\n``` json\n {\n    \"courseId\": null,                       //Mindig null\n    \"courseName\": \"Product Scaling\",        //Kell - legablább 4 karakter\n    \"courseDescription\": null,              //Optional\n    \"capacity\": 5,                          // Kell - 1 és 50 között\n    \"startDate\": \"2025-01-07T15:56:25.751\", // Kell - jelen vagy jövő\n    \"endDate\": \"2025-02-08T01:56:21.527\",   // Kell - jelen vagy jövő\n    \"duration\": null,                       // Mindig null\n    \"teacher\": {\n        \"userId\": 6,                        // Csak ez kell - a többi null\n        \"username\": null,                   // Null\n        \"password\": null,                   // Null\n        \"role\": null,                       // Null\n        \"contact\": null,                    // Null\n        \"teacherCourses\": [],               //Empty list\n        \"user_appointments\": []             //Empty list\n    }\n }\n\n ```\n\n**Kimenet:**\n\n``` json\n{\n    \"courseId\": 14,\n    \"courseName\": \"Product Scaling4\",\n    \"courseDescription\": \"\",\n    \"capacity\": 50,\n    \"startDate\": \"2025-01-07T15:56:25.751\",\n    \"endDate\": \"2025-02-08T01:56:21.527\",\n    \"duration\": 45239,\n    \"teacher\": {\n        \"userId\": 1,\n        \"username\": \"T\",\n        \"password\": \"$2a$12$S58Svju4FtVquQl5lSfvqOYRhYTXzQBwmdukabn8KyV5QL2.94n7K\",\n        \"role\": \"ROLE_TEACHER\",\n        \"contact\": {\n            \"contactId\": 1,\n            \"email\": \"t@t.t\",\n            \"phone\": null\n        },\n        \"teacherCourses\": [],\n        \"user_appointments\": []\n    },\n    \"studentsList\": null\n}\n\n ```\n\n**Errors:**\n\n- 500, ha hiányos vagy ha az entity megszoritásainak nem felel meg"
+							},
+							"response": []
+						},
+						{
+							"name": "updateCourse",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Teacher",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"courseId\": 1, //Nem lehet null\r\n    \"courseName\": null, //Kell - legablább 4 karakter\r\n    \"courseDescription\": null, //Optional\r\n    \"capacity\": 5, // Kell - 1 és 50 között\r\n    \"startDate\": null, // Kell - jelen vagy jövő\r\n    \"endDate\": null, // Kell - jelen vagy jövő\r\n    \"duration\": null, // Mindig null\r\n    \"teacher\": {\r\n        \"userId\": 1, // Csak ez kell - a többi null\r\n        \"username\": \"null\", // Null\r\n        \"password\": null, // Null\r\n        \"role\": null, // Null\r\n        \"contact\": null, // Null\r\n        \"teacherCourses\": [], //Empty list\r\n        \"user_appointments\": [] //Empty list\r\n    },\r\n    \"studentList\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/management/teacher/update",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"teacher",
+										"update"
+									]
+								},
+								"description": "**Bemenet:**\n\n- Kurzus adatok\n    \n\n``` json\n{\n    \"courseId\": 1, //Nem lehet null\n    \"courseName\": null, //Kell - legablább 4 karakter\n    \"courseDescription\": null, //Optional\n    \"capacity\": 5, // Kell - 1 és 50 között\n    \"startDate\": null, // Kell - jelen vagy jövő\n    \"endDate\": null, // Kell - jelen vagy jövő\n    \"duration\": null, // Mindig null\n    \"teacher\": {\n        \"userId\": 1, // Csak ez kell - a többi null\n        \"username\": \"null\", // Null\n        \"password\": null, // Null\n        \"role\": null, // Null\n        \"contact\": null, // Null\n        \"teacherCourses\": [], //Empty list\n        \"user_appointments\": [] //Empty list\n    },\n    \"studentList\": []\n}\n\n ```\n\n**Kimenet:**\n\n- Ellenörzéshez a módositott course\n    \n\n``` json\n{\n    \"courseId\": 1,\n    \"courseName\": \"Internal Solutions Planner\",\n    \"courseDescription\": \"xjr63v3eo4fsox8270n5xdafro1a2ypowv0ig92570ov9d7qtwgxbi4kovzorn1caklsnoy3r8o7moyjpr6fgbd422fj8czugh9ug35de5lwh87ldzle5i2qffypishwcdwjar1f97f0qpvrzhualfa12zrut48wo2zoxn0shr5tjkij2hccdnf2sjjko3vv7bqg3ccupvjuyx7f2zc3pao9f55dwmshhf0na1ufp8ywfzkbrwovov05hi\",\n    \"capacity\": 5,\n    \"startDate\": \"2024-12-11T18:49:05.923\",\n    \"endDate\": \"2025-02-20T03:06:50.488\",\n    \"duration\": 101297,\n    \"teacher\": {\n        \"userId\": 1,\n        \"username\": \"T\",\n        \"password\": \"$2a$12$5VrlbvvDkf3Py7XXJDnZFOwMvbNm8vst9bqWwBoWJyEyudx3382Vi\",\n        \"role\": \"ROLE_TEACHER\",\n        \"contact\": {\n            \"contactId\": 1,\n            \"email\": \"t@t.t\",\n            \"phone\": null\n        },\n        \"teacherCourses\": [],\n        \"user_appointments\": []\n    },\n    \"studentsList\": [\n        {\n            \"userId\": 14,\n            \"username\": \"fred.yost\",\n            \"password\": \"$2a$12$6Tm/aZd7GnFaqSE3RE5E1.xBPuN0/PuyZroz6qllQQBLEmDFB/KGG\",\n            \"role\": \"ROLE_STUDENT\",\n            \"contact\": {\n                \"contactId\": 14,\n                \"email\": \"harris.pfeffer@yahoo.com\",\n                \"phone\": \"+3-4536028407\"\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        {\n            \"userId\": 2,\n            \"username\": \"S\",\n            \"password\": \"$2a$12$Bp8WcohNsvhTzNP6gsRwJev7gmDv27EMSFkFRT7gvLdRW4iQT0aBW\",\n            \"role\": \"ROLE_STUDENT\",\n            \"contact\": {\n                \"contactId\": 2,\n                \"email\": \"s@s.s\",\n                \"phone\": null\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        {\n            \"userId\": 4,\n            \"username\": \"odette.marks\",\n            \"password\": \"$2a$12$jpzXTMFRv3DcMV47odTuLODQFTKeH7Ado7jXK/EaC.XJP/Ah5Dhyy\",\n            \"role\": \"ROLE_STUDENT\",\n            \"contact\": {\n                \"contactId\": 4,\n                \"email\": \"angila.king@hotmail.com\",\n                \"phone\": \"+0-4785437015\"\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        {\n            \"userId\": 6,\n            \"username\": \"lakeesha.macgyver\",\n            \"password\": \"$2a$12$ybFqlsDqZiyIXdtd3MKY7ubbtg0iiaP06wbnXljebCRd7T4.EF7CG\",\n            \"role\": \"ROLE_STUDENT\",\n            \"contact\": {\n                \"contactId\": 6,\n                \"email\": \"dave.heidenreich@hotmail.com\",\n                \"phone\": \"+6 8170087007\"\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        },\n        {\n            \"userId\": 9,\n            \"username\": \"anton.sawayn\",\n            \"password\": \"$2a$12$pNHthVRFPCypSazsxrbhku6VrO9CkW1.1gXJGODSOAO6SMsckngxy\",\n            \"role\": \"ROLE_STUDENT\",\n            \"contact\": {\n                \"contactId\": 9,\n                \"email\": \"olevia.wunsch@yahoo.com\",\n                \"phone\": \"+8-6002825019\"\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        }\n    ]\n}\n\n ```\n\n**Error:**\n\n- 200\n    \n- 400\n    \n    - kapacitás 1 és 50 között lehet\n        \n    - ha már létezik olyan `courseName`,\n        \n    - ha a `startDate` vagy az `endDate` a múltbeli - 500 error\n        \n    - ha nincs vagy nem létező a `role`\n        \n- 500 - Ha hiányos a bemenet"
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAppointment",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Teacher",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/teacher/delete/appointment/1/6",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"teacher",
+										"delete",
+										"appointment",
+										"1",
+										"6"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariables - {courseID}/{userID}\n    \n    - `localhost:8080/api/v1/management/teacher/delete/appointment/{courseID}/{teacherID}`\n        \n\n**Kimenet:**\n\n- 200 OK\n    \n\n**Errors:**\n\n- 200\n    \n- 404"
+							},
+							"response": []
+						},
+						{
+							"name": "deleteCourse",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Teacher",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/teacher/delete/course/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"teacher",
+										"delete",
+										"course",
+										"1"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - {courseID}\n    \n    - `localhost:8080/api/v1/management/teacher/delete/course/{courseID}`\n        \n\n**Kimenet:**\n\n- 200 OK\n    \n\n**Errors:**\n\n- 200\n    \n- 404"
+							},
+							"response": []
+						}
+					],
+					"description": "Csak ilyen formátumot lehet küldeni Kurzust **Create**\\-nek:\n\n``` json\n {\n    /*Kell*/    \"courseId\": null,\n    /*Kell*/    \"courseName\": \"Product Applications asdfhjgfdfhjkgfdcfghgvcvStrategist\",\n    /*Kell*/    \"courseDescription\": \"tsgsgest\",\n    /*Kell*/    \"capacity\": 5,\n    /*Kell*/    \"startDate\": \"2025-01-07T15:56:25.751\",\n    /*Kell*/    \"endDate\": \"2025-02-08T01:56:21.527\",\n    /*Kell*/    \"duration\": null,\n    /*Kell*/    \"teacher\": {\n    /*Kell*/        \"userId\": 8,  \n                    \"username\": \"tamra.carroll\", //null\n                    \"password\": \"$2a$12$3uUXKsVzc4cXReUlaoPkxO4YMRRUB4zRJfD/gl1aeTlKrVvGrMyWO\",\n                    \"role\": \"ROLE_TEACHER\", //null\n                    \"contact\": { //null\n                        \"contactId\": 8,\n                        \"email\": \"janett.streich@yahoo.com\", //null\n                        \"phone\": \"+71-3322857291\" //null\n                    },\n                    \"teacherCourses\": [], //null\n                    \"user_appointments\": [] //null\n                }\n }\n\n ```\n\n- A teacher is tudjon jelentkezni tanárnak kurzusokra, amiknek nincs tanárjuk (Vagyis látja azokat a kurzusokat is a sajátjain kivül, amiknek nincs teacher-je)",
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "password",
+								"value": "Aa12345!",
+								"type": "string"
+							},
+							{
+								"key": "username",
+								"value": "T",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "AdminController Copy",
+					"item": [
+						{
+							"name": "allCourses",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/all_courses",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"all_courses"
+									]
+								},
+								"description": "**Bemenet:**\n\n- `localhost:8080/api/v1/management/admin/all_courses`\n    \n\n**Kimenet:**\n\n- Listája a kurzusoknak legfeljebb obijektumonként 1 mélységben\n    \n- 200 OK\n    \n\n**Errors:**\n\n- 200"
+							},
+							"response": []
+						},
+						{
+							"name": "courseDetails",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/course/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"course",
+										"3"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - courseID\n    \n    - `localhost:8080/api/v1/management/admin/course/{courseID}`\n        \n\n**Kimenet:**\n\n``` json\n{\n    \"courseId\": 3,\n    \"courseName\": \"Corporate Data Architect\",\n    \"courseDescription\": \"03j403j6hlcz9fbelo9thslgrkvy29uon6p6n2vjvgl9hjgtomwtk8nvz2vosmgevkqmxdkmanl69o8vhaj2j7onzz1d4bypmf1cfl6zf8t2tyix9p75fpte2clv9shqubw7j9eiuihz5na5mqk0smkudpii0x73r28r2nif295s9dccbl6na9fmzow12y6d8ek9c5gqbms3ddo31745pbdhkvpdlixdlump88v4t0bc9buwembrhcmth9\",\n    \"capacity\": 14,\n    \"startDate\": \"2024-12-11T01:23:44.631\",\n    \"endDate\": \"2025-02-26T06:20:42.81\",\n    \"duration\": 111176,\n    \"teacher\": {\n        \"userId\": 4,\n        \"username\": \"judson.tillman\",\n        \"password\": \"$2a$12$R0uzBJ3gvcNFKj/WVKUH5.zcDWA3oS/OgMOl3zT9C2ehinHWIV3D.\",\n        \"role\": \"ROLE_TEACHER\",\n        \"contact\": {\n            \"contactId\": 4,\n            \"email\": \"felicia.legros@yahoo.com\",\n            \"phone\": \"+4 0849937788\"\n        },\n        \"teacherCourses\": [],\n        \"user_appointments\": []\n    },\n    \"studentsList\": [\n        {\n            \"userId\": 10,\n            \"username\": \"mertie.schamberger\",\n            \"password\": \"$2a$12$ZnPA3QBQsZvirOCRKj3cc.cobzE3L3DMAGgvnIFUewPsEqFM7Ny.S\",\n            \"role\": \"ROLE_STUDENT\",\n            \"contact\": {\n                \"contactId\": 10,\n                \"email\": \"rob.torp@yahoo.com\",\n                \"phone\": \"3424286006\"\n            },\n            \"teacherCourses\": [],\n            \"user_appointments\": []\n        }\n    ]\n}\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "allUsers",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/all_users",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"all_users"
+									]
+								},
+								"description": "**Bemenet:**\n\n- `localhost:8080/api/v1/management/admin/all_users`\n    \n\n**Kimenet:**\n\n- Felhasználók listája\n    \n\n**Errors:**\n\n- 200"
+							},
+							"response": []
+						},
+						{
+							"name": "userDetail",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/user/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"user",
+										"2"
+									]
+								},
+								"description": "**Bemenet:**\n\n- `localhost:8080/api/v1/management/admin/user/6`\n    \n\n**Kimenet:**\n\n- Csak azon ID - val rendelkező user adatati\n    \n\n**Errors:**\n\n- 200 OK"
+							},
+							"response": []
+						},
+						{
+							"name": "createCourseForTIDTeacher",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n    \"courseId\": null,\r\n    \"courseName\": \"Produawwect wAst\",\r\n    \"courseDescription\": \"tsgsgest\",\r\n    \"capacity\": 1,\r\n    \"startDate\": \"2025-01-07T15:56:25.751\",\r\n    \"endDate\": \"2025-02-08T01:56:21.527\",\r\n    \"duration\": null,\r\n    \"teacher\": {\r\n        \"userId\": 8,\r\n        \"username\": \"tamra.carroll\",\r\n        \"password\": \"$2a$12$3uUXKsVzc4cXReUlaoPkxO4YMRRUB4zRJfD/gl1aeTlKrVvGrMyWO\",\r\n        \"role\": \"ROLE_TEACHER\",\r\n        \"contact\": {\r\n            \"contactId\": 6,\r\n            \"email\": \"janett.streich@yahoo.com\",\r\n            \"phone\": null\r\n        },\r\n        \"teacherCourses\": [],\r\n        \"user_appointments\": []\r\n    },\r\n    \"studentsList\": null\r\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/create_course/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"create_course",
+										"1"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - courseID\n    \n    - `localhost:8080/api/v1/management/admin/create_course/{courseID}`\n        \n- Body with the enw Course Details\n    \n\n``` json\n {\n    \"courseId\": null, \n    \"courseName\": \"test\", //Kell - Még nem létező\n    \"courseDescription\": \"tsgsgest\", //Optional\n    \"capacity\": 5, //Kell - 1-50 között\n    \"startDate\": \"2025-01-07T15:56:25.751\", //Kell\n    \"endDate\": \"2025-02-08T01:56:21.527\", //Kell\n    \"duration\": null,\n    \"teacher\": { //Kell\n        \"userId\": 8, //Kell - Létező tanár ID\n        \"username\": null, //Többi null\n        \"password\": null,\n        \"role\": null, \n        \"contact\": {\n            \"contactId\": null,\n            \"email\": null,\n            \"phone\": null\n        },\n        \"teacherCourses\": [], //Null\n        \"user_appointments\": [] //Null\n    },\n    \"studentsList\": null\n }\n\n ```\n\n**Kimenet:**\n\n``` json\n{\n    \"courseId\": 18,\n    \"courseName\": \"Product Applic23412tfwcvesbzsemcvbdcfghgvcvStrategist\",\n    \"courseDescription\": \"tsgsgest\",\n    \"capacity\": 5,\n    \"startDate\": \"2025-01-07T15:56:25.751\",\n    \"endDate\": \"2025-02-08T01:56:21.527\",\n    \"duration\": 45239,\n    \"teacher\": {\n        \"userId\": 8,\n        \"username\": \"tamra.carroll\",\n        \"password\": \"$2a$12$3uUXKsVzc4cXReUlaoPkxO4YMRRUB4zRJfD/gl1aeTlKrVvGrMyWO\",\n        \"role\": \"ROLE_TEACHER\",\n        \"contact\": {\n            \"contactId\": 8,\n            \"email\": \"janett.streich@yahoo.com\",\n            \"phone\": \"+71-3322857291\"\n        },\n        \"teacherCourses\": [],\n        \"user_appointments\": []\n    },\n    \"studentsList\": null\n}\n\n ```\n\n**Errors:**\n\n- 201\n    \n- 400\n    \n- 404\n    \n- 500"
+							},
+							"response": []
+						},
+						{
+							"name": "createUser",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": null,\r\n    \"username\": \"Mamriam1e2\",\r\n    \"password\": \"Aa12345!\",\r\n    \"role\": \"ROLE_TEACHER\",\r\n    \"contact\": {\r\n        \"contactId\": null,\r\n        \"email\": \"mm@m.m\",\r\n        \"phone\": null\r\n    },\r\n    \"teacherCourses\": [],\r\n    \"user_appointments\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/create_user",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"create_user"
+									]
+								},
+								"description": "**Bemenet:**\n\n``` json\n{\n    \"userId\": null,\n    \"username\": \"Mamriam1\", //Kell - Egyedi\n    \"password\": \"Aa12345!\", //Kell\n    \"role\": \"ROLE_TEACHER\", //Kell\n    \"contact\": {\n        \"contactId\": null,\n        \"email\": \"m@m.m\", //Kell\n        \"phone\": null //Optional\n    },\n    \"teacherCourses\": [],\n    \"user_appointments\": []\n}\n\n ```\n\n**Kimenet:**\n\n- 201\n    \n\n``` json\n{\n    \"userId\": 13,\n    \"username\": \"Mamriam1\",\n    \"password\": \"Aa12345!\",\n    \"role\": \"ROLE_TEACHER\",\n    \"contact\": {\n        \"contactId\": 13,\n        \"email\": \"m@m.m\",\n        \"phone\": null\n    },\n    \"teacherCourses\": [],\n    \"user_appointments\": []\n}\n\n ```\n\n**Error:**\n\n- 201\n    \n- 400 - pass, usrname, role\n    \n- 500 - email-phone"
+							},
+							"response": []
+						},
+						{
+							"name": "updateCourse",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"courseId\": 1,\r\n    \"courseName\": \"test\",\r\n    \"courseDescription\": \"testdesc\",\r\n    \"capacity\": 1,\r\n    \"startDate\": \"2025-01-19T03:58:27.349\",\r\n    \"endDate\": \"2025-01-28T20:43:24.716\",\r\n    \"duration\": 58604,\r\n    \"teacher\": {\r\n        \"userId\": 1,\r\n        \"username\": \"T\",\r\n        \"password\": \"$2a$12$J.uJLrLXhDlnZI4j.IGNNu/aeEJrvIHe523RP4InLqK1kRPy4Uzza\",\r\n        \"role\": \"ROLE_TEACHER\",\r\n        \"contact\": {\r\n             \"contactId\": 1,\r\n             \"email\": \"tt@t.t\",\r\n             \"phone\": \"+12 1234567890\"\r\n        },\r\n        \"teacherCourses\": [],\r\n        \"userAppointments\": []\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/course_update",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"course_update"
+									]
+								},
+								"description": "**Bemenet:**\n\n``` json\n{\n    \"courseId\": 1, //Kell - ez alapján keresi fel\n    \"courseName\": \"test\", //Optional\n    \"courseDescription\": \"testdesc\", //Optional\n    \"capacity\": 1, //Optional\n    \"startDate\": \"2025-01-19T03:58:27.349\", //Optional\n    \"endDate\": \"2025-01-28T20:43:24.716\", //Optional\n    \"duration\": null,\n    \"teacher\": {\n        \"userId\": 1, //Optional\n        \"username\": null,\n        \"password\": null,\n        \"role\": null,\n        \"contact\": {\n            \"contactId\": null,\n            \"email\": null,\n            \"phone\": null\n        },\n        \"teacherCourses\": [],\n        \"userAppointments\": []\n    },\n    \"studentList\": []\n}\n\n ```\n\n**Kimenet:**\n\n``` json\n{\n    \"courseId\": 1, //Kell - ez alapján keresi fel\n    \"courseName\": \"test\", //Optional\n    \"courseDescription\": \"testdesc\", //Optional\n    \"capacity\": 1, //Optional\n    \"startDate\": \"2025-01-19T03:58:27.349\", //Optional\n    \"endDate\": \"2025-01-28T20:43:24.716\", //Optional\n    \"duration\": null,\n    \"teacher\": {\n        \"userId\": 1, //Optional\n        \"username\": null,\n        \"password\": null,\n        \"role\": null,\n        \"contact\": {\n            \"contactId\": null,\n            \"email\": null,\n            \"phone\": null\n        },\n        \"teacherCourses\": [],\n        \"userAppointments\": []\n    },\n    \"studentList\": []\n}\n\n ```\n\n**Errors:**\n\n- 200\n    \n- 400\n    \n- 404 - course, teacher not found\n    \n- 500 - invalid entity or json"
+							},
+							"response": []
+						},
+						{
+							"name": "updateUser",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 4,\r\n    \"username\": \"sb\",\r\n    \"password\": null,\r\n    \"role\": \"ROLE_STUDENT\",\r\n    \"contact\": {\r\n        \"contacstId\": 17,\r\n        \"email\": \"sdsdw@sdsd.sdsd1sd\"\r\n    },\r\n    \"teacherCourses\": [],\r\n    \"user_appointments\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/user_update",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"user_update"
+									]
+								},
+								"description": "**Bemenet:**\n\n``` json\n{\n    \"userId\": 4, //Kell - Ez alapján van felkeresve\n    \"username\": \"sb\", //Optional\n    \"password\": null, //Optional\n    \"role\": \"ROLE_STUDENT\", //Optional\n    \"contact\": {\n        \"contacstId\": null,\n        \"email\": \"sdsd@sdsd.sdsdsd\", //Optional\n        \"phone\": \"+12 1234567890\" //Optional\n    },\n    \"teacherCourses\": [],\n    \"user_appointments\": []\n}\n\n ```\n\n**Kimenet:**\n\n- 201\n    \n\n**Errors:**\n\n- 201\n    \n- 404\n    \n- 400\n    \n- 500\n    \n\n---"
+							},
+							"response": []
+						},
+						{
+							"name": "deleteCourseById",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/course/delete/4",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"course",
+										"delete",
+										"4"
+									]
+								},
+								"description": "**Bemenet:**\n\n- PathVariable - courseID\n    \n    - `localhost:8080/api/v1/management/admin/course/delete/{courseID}`\n        \n\n**Kimenet:**\n\n- 200\n    \n\n**Errors:**\n\n- 200\n    \n- 404"
+							},
+							"response": []
+						},
+						{
+							"name": "deleteUserById",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "Admin",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "Aa12345!",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/api/v1/management/admin/user/delete/1",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"management",
+										"admin",
+										"user",
+										"delete",
+										"1"
+									]
+								},
+								"description": "**Bemenet:ű**\n\n- PathVaribale - userID\n    \n    - `localhost:8080/api/v1/management/admin/user/delete/{userID}`\n        \n\n**Kimenet**\n\n- 200\n    \n\n**Errors:**\n\n- 200\n    \n- 404"
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "password",
+								"value": "Aa12345!",
+								"type": "string"
+							},
+							{
+								"key": "username",
+								"value": "A",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

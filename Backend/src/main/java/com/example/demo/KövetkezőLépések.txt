@@ -1,0 +1,133 @@
+
+1.) Controllerek adat felfogásának megtervezése és kijavitása
+
+2.) React.js Tanulás és egyenként nézetenként az odlal elkészitése
+    2.2) View-k megirása komponensről-komponensre !!!
+
+ + Kiegészitő szépités
+    1) Pagination
+    2) Searching and Sorting
+
+Extras:
+            - FlyWay Implementaion - Huuuu, de jó lenne (+o+)
+
+            - Make the whole thing as a docker file :) and i would be very happy :)
+
+
+
+# API-k:
+
+| Endpoint                              | HTTP Method | Controller Method         |
+|---------------------------------------|-------------|---------------------------|
+| `/user_data/{username}`               | GET         | `Controller#userData`     |
+| `/login`                              | POST        | `Controller#login`        |
+| `/register`                           | POST        | `Controller#registration` |
+| `/user_data/update`                   | PUT         | `Controller#update`       |
+| `/user_data/delete/{username}`        | DELETE      | `Controller#delete`       |
+
+
+
+| Endpoint                                          | HTTP Method | Controller Method                       |
+|---------------------------------------------------|-------------|-----------------------------------------|
+| `/api/v1/student/mycourses/{sid}`                 | GET         | `StudentsController#listOfMyCourses`    |
+| `/api/v1/student/notmycourses/{username}`         | GET         | `StudentsController#listOfNotMyCourses` |
+| `/api/v1/student/create`                          | POST        | `StudentsController#makeAnAppointment`  |
+| `/api/v1/student/delete`                          | DELETE      | `StudentsController#deleteAppointment`  |
+
+
+
+| Endpoint                                                    | HTTP Method | Controller Method                              |
+|-------------------------------------------------------------|-------------|------------------------------------------------|
+| `/api/v1/management/teacher/appointmentslist/{cid}`         | GET         | `TeachersController#appointmentsForThisCourse` |
+| `/api/v1/management/teacher/details/{cid}`                  | GET         | `TeachersController#detailsOfACourse`          |
+| `/api/v1/management/teacher/mycourses/{tid}`                | GET         | `TeachersController#listOfMyCourses`           |
+| `/api/v1/management/teacher/create_course`                  | POST        | `TeachersController#saveCourse`                |
+| `/api/v1/management/teacher/update`                         | PUT         | `TeachersController#updateThisCourse`          |
+| `/api/v1/management/teacher/delete/appointment/{cid}/{sid}` | DELETE      | `TeachersController#deleteAppointment`         |
+| `/api/v1/management/teacher/delete/course/{id}`             | DELETE      | `TeachersController#deleteCourse`              |
+
+
+
+| Endpoint                                      | HTTP Method | Controller Method                       |
+|-----------------------------------------------|-------------|-----------------------------------------|
+| `/api/v1/management/admin/all_courses`        | GET         | `AdminsController#getAllCourses`        |
+| `/api/v1/management/admin/all_users`          | GET         | `AdminsController#getAllUsers`          |
+| `/api/v1/management/admin/user/{uid}`         | GET         | `AdminsController#getUserById`          |
+| `/api/v1/management/admin/create_course/{tid}`| POST        | `AdminsController#createCourse`         |
+| `/api/v1/management/admin/create_user`        | POST        | `AdminsController#createUser`           |
+| `/api/v1/management/admin/course_update`      | PUT         | `AdminsController#updateCourse`         |
+| `/api/v1/management/admin/user_update`        | PUT         | `AdminsController#updateUser`           |
+| `/api/v1/management/admin/course/delete/{cid}`| DELETE      | `AdminsController#deleteCourse`         |
+| `/api/v1/management/admin/user/delete/{uid}`  | DELETE      | `AdminsController#deleteUser`           |
+
+---
+
+
+
+Problems:
+
+ - Bent felejtett dolgok törlése
+
+    + Minde felhasználó csak a Rolejának megfelelő saját magára vonatkozó dolgait csinálhatja
+
+        - Elméletilegmegoldás vagy esetleg ez mint külön filter - AAAAAAAaaaahhhhh Istenem segits meeeegggg, elsirom magam :::'''''''"""""""""""""(((((((
+            - login-ból / JWT-ből kiszedve egy sajátAdatok obiektumba berakva - ez egy Users
+                 - ezeket helyetesitjük role check után a saját adatok részekhez
+
+            - Controller
+                - Csak a saját adatait CRUD
+                    - Ha delete ki is jelentkezteti
+            - Student
+                - Saját adataival regisztrál kurzusra MakeAppointment
+                - Saját adatai alapján listázza a sajátKurzusait
+                - Csak a saját Appointmentjeit törölheti
+            - Teacher
+                - Csak saját kurzusokat listáz saját kurzus listához
+                - Csak a saját kurzusai közül listázza az Appointmenteket
+                - Csak saját kurzus details
+                - Saját adataival kreálhat kurzust4
+                - Saját kurzust update-elhet
+                - saját kurzust törölhet
+                saját kurzushoz tartozó appointmentet tötölhet
+            - Admin
+                - Bárkivel azt tesz amit csak akar (Szuper-Mega-Giga-ADMIN-Poweeeeerrrrrrrrr)
+
+
+
+ - A Security furcsán viselkedik, van hogy authentifikál, van hogy headerben, van hogy bodyban van hogy mind kettő kell és van hogy megy JWT vel van hogy nem
+
+ https://youtube.com/shorts/kfsxnwV_jNo?si=7naX5-fKRrIzOtSn / Küld majd el Lórinak
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
